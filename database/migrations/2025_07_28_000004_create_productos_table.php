@@ -14,11 +14,11 @@ return new class extends Migration
             $table->float('Precio');
             $table->unsignedBigInteger('IdCategoria');
             $table->integer('Stock');
-            $table->string('Imagen')->nullable();
-            $table->string('Archivo_RA')->nullable();
+            $table->string('Imagen', 50)->nullable();
+            $table->string('Archivo_RA', 50)->nullable();
             $table->timestamps();
 
-            $table->foreign('IdCategoria')->references('IdCategoria')->on('categorias');
+            $table->foreign('IdCategoria')->references('IdCategoria')->on('categorias')->onDelete('cascade');
         });
     }
 

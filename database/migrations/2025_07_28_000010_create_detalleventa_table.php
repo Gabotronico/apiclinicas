@@ -9,16 +9,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('detalleventa', function (Blueprint $table) {
-            $table->id('IdDetalleVenta');
+            $table->id('IdDetalle');
             $table->unsignedBigInteger('IdProducto');
             $table->unsignedBigInteger('IdVenta');
             $table->integer('Cantidad');
-            $table->float('PrecioUnitario');
-            $table->float('SubTotal');
+            $table->decimal('PrecioUnitario', 10, 2);
+            $table->decimal('SubTotal', 10, 2);
             $table->timestamps();
 
-            $table->foreign('IdProducto')->references('IdProducto')->on('productos');
-            $table->foreign('IdVenta')->references('IdVenta')->on('venta');
+            $table->foreign('IdProducto')->references('IdProducto')->on('productos')->onDelete('cascade');
+            $table->foreign('IdVenta')->references('IdVenta')->on('venta')->onDelete('cascade');
         });
     }
 

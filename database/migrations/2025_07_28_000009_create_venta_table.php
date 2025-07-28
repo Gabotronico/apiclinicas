@@ -15,15 +15,15 @@ return new class extends Migration
             $table->dateTime('Fecha');
             $table->decimal('Total', 18, 2);
             $table->unsignedBigInteger('IdMetodoPago');
-            $table->string('EstadoPedido', 50)->nullable();
+            $table->string('EstadoPedido', 50);
             $table->unsignedBigInteger('IdDireccion');
-            $table->unsignedBigInteger('IdRepartidor')->nullable();
+            $table->unsignedBigInteger('IdRepartidor');
             $table->timestamps();
 
-            $table->foreign('IdUsuario')->references('IdUsuario')->on('usuarios');
-            $table->foreign('IdMetodoPago')->references('IdMetodoPago')->on('metodopago');
-            $table->foreign('IdDireccion')->references('IdDireccion')->on('direcciones');
-            $table->foreign('IdRepartidor')->references('IdRepartidor')->on('repartidor');
+            $table->foreign('IdUsuario')->references('IdUsuario')->on('usuarios')->onDelete('cascade');
+            $table->foreign('IdMetodoPago')->references('IdMetodoPago')->on('metodopago')->onDelete('cascade');
+            $table->foreign('IdDireccion')->references('IdDireccion')->on('direcciones')->onDelete('cascade');
+            $table->foreign('IdRepartidor')->references('IdRepartidor')->on('repartidor')->onDelete('cascade');
         });
     }
 

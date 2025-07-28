@@ -12,12 +12,12 @@ return new class extends Migration
             $table->id('IdUsuario');
             $table->string('Nombre', 50);
             $table->string('Email', 50)->unique();
-            $table->string('password');
+            $table->string('Password', 50);
             $table->unsignedBigInteger('IdRol');
-            $table->dateTime('FechaRegistro')->nullable();
+            $table->dateTime('FechaRegistro');
             $table->timestamps();
 
-            $table->foreign('IdRol')->references('IdRol')->on('roles');
+            $table->foreign('IdRol')->references('IdRol')->on('roles')->onDelete('cascade');
         });
     }
 

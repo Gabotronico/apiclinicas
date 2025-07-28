@@ -11,11 +11,11 @@ return new class extends Migration
         Schema::create('repartidor', function (Blueprint $table) {
             $table->id('IdRepartidor');
             $table->string('Nombre', 50);
-            $table->string('Telefono', 15);
+            $table->integer('Telefono');
             $table->unsignedBigInteger('IdVehiculo');
             $table->timestamps();
 
-            $table->foreign('IdVehiculo')->references('IdVehiculo')->on('vehiculo');
+            $table->foreign('IdVehiculo')->references('IdVehiculo')->on('vehiculo')->onDelete('cascade');
         });
     }
 

@@ -11,14 +11,14 @@ return new class extends Migration
         Schema::create('direcciones', function (Blueprint $table) {
             $table->id('IdDireccion');
             $table->unsignedBigInteger('IdUsuario');
-            $table->string('Direccion', 50);
+            $table->string('Direccion', 100);
             $table->string('Ciudad', 50);
             $table->float('Latitud')->nullable();
             $table->float('Longitud')->nullable();
-            $table->string('Referencia')->nullable();
+            $table->string('Referencia', 50)->nullable();
             $table->timestamps();
 
-            $table->foreign('IdUsuario')->references('IdUsuario')->on('usuarios');
+            $table->foreign('IdUsuario')->references('IdUsuario')->on('usuarios')->onDelete('cascade');
         });
     }
 
