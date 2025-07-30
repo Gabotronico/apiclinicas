@@ -11,11 +11,11 @@ class Usuario extends Model
     public $incrementing = true;
     public $timestamps = true;
     protected $fillable = [
-        'Nombre',
-        'Email',
-        'password',
-        'IdRol',
-        'FechaRegistro'
+       'Nombre',
+    'Email',
+    'password',
+    'IdRol',
+    'FechaRegistro'
     ];
 
     public function rol()

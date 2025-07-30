@@ -15,7 +15,23 @@ class UsuarioController extends Controller
 
     public function store(Request $request)
     {
-        $usuario = Usuario::create($request->all());
+        $request->validate([
+            'Nombre' => 'required|string|max:255',
+            'Email' => 'required|string|email|max:255',
+            'password' => 'required|string|max:255',
+            'IdRol' => 'required|integer|exists:roles,IdRol',
+            'FechaRegistro' => 'nullable|date'
+        ]);
+
+        $data = $request->all();
+        // Opcional: Encripta el password si lo necesitas
+        // $data['password'] = bcrypt($data['password']);
+
+        logger()->info($data);
+
+        $usuario = Usuario::create($data);
+        logger()->info($usuario);
+
         return response()->json($usuario, 201);
     }
 
