@@ -8,19 +8,30 @@ class Producto extends Model
 {
     protected $table = 'productos';
     protected $primaryKey = 'IdProducto';
-    public $incrementing = true;
-    public $timestamps = true;
     protected $fillable = [
         'NombreProducto',
         'Precio',
         'IdCategoria',
         'Stock',
-        'Imagen',
+        'IdTalla',
+        'IdColor',
+        'IdImagen',
         'Archivo_RA'
     ];
 
-    public function categoria()
+    // Relaciones UNO A UNO (cada producto tiene UNA talla, UN color y UNA imagen principal)
+    public function talla()
     {
-        return $this->belongsTo(Categoria::class, 'IdCategoria', 'IdCategoria');
+        return $this->belongsTo(Talla::class, 'IdTalla', 'IdTalla');
+    }
+
+    public function color()
+    {
+        return $this->belongsTo(Color::class, 'IdColor', 'IdColor');
+    }
+
+    public function imagen()
+    {
+        return $this->belongsTo(Imagen::class, 'IdImagen', 'IdImagen');
     }
 }

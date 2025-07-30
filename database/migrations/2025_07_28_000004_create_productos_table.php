@@ -14,11 +14,16 @@ return new class extends Migration
             $table->float('Precio');
             $table->unsignedBigInteger('IdCategoria');
             $table->integer('Stock');
-            $table->string('Imagen', 50)->nullable();
+            $table->unsignedBigInteger('IdTalla')->nullable();    // FK a tallas
+            $table->unsignedBigInteger('IdColor')->nullable();    // FK a colores
+            $table->unsignedBigInteger('IdImagen')->nullable();   // FK a imagenes
             $table->string('Archivo_RA', 50)->nullable();
             $table->timestamps();
 
             $table->foreign('IdCategoria')->references('IdCategoria')->on('categorias')->onDelete('cascade');
+            $table->foreign('IdTalla')->references('IdTalla')->on('tallas')->onDelete('set null');
+            $table->foreign('IdColor')->references('IdColor')->on('colores')->onDelete('set null');
+            $table->foreign('IdImagen')->references('IdImagen')->on('imagenes')->onDelete('set null');
         });
     }
 
