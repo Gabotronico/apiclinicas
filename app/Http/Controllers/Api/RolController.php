@@ -8,32 +8,66 @@ use Illuminate\Http\Request;
 
 class RolController extends Controller
 {
+    // Obtener todos los roles
     public function index()
     {
-        return Rol::all();
+        return response()->json(Rol::all(), 200);
     }
 
+    // Crear un nuevo rol
     public function store(Request $request)
     {
-        $rol = Rol::create($request->all());
+        $request->validate([
+            'nombre' => 'required|string|max:50',
+        ]);
+
+        $rol = Rol::create([
+            'nombre' => $request->nombre,
+        ]);
+
         return response()->json($rol, 201);
     }
 
+    // Mostrar un rol específico
     public function show($id)
     {
-        return Rol::findOrFail($id);
-    }
+        $rol = Rol::find($id);
+        if (!$rol) {
+            return response()->json(['mensaje' => 'Rol no encontrado'], 404);
+        }
 
-    public function update(Request $request, $id)
-    {
-        $rol = Rol::findOrFail($id);
-        $rol->update($request->all());
         return response()->json($rol, 200);
     }
 
+    // Actualizar un rol
+    public function update(Request $request, $id)
+    {
+        $rol = Rol::find($id);
+        if (!$rol) {
+            return response()->json(['mensaje' => 'Rol no encontrado'], 404);
+        }
+
+        $request->validate([
+            'nombre' => 'required|string|max:50',
+        ]);
+
+        $rol->update([
+            'nombre' => $request->nombre,
+        ]);
+
+        return response()->json($rol, 200);
+    }
+
+    // Eliminar un rol
     public function destroy($id)
     {
-        Rol::destroy($id);
-        return response()->json(null, 204);
+        $rol = Rol::find($id);
+        if (!$rol) {
+            return response()->json(['mensaje' => 'Rol no encontrado'], 404);
+        }
+
+        $rol->delete();
+
+        return response()->json(['mensaje' => 'Rol eliminado'], 200);
     }
 }

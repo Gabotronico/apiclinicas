@@ -8,48 +8,94 @@ use Illuminate\Http\Request;
 
 class UsuarioController extends Controller
 {
+    // Mostrar todos los usuarios
     public function index()
     {
-        return Usuario::all();
+        return response()->json(Usuario::all(), 200);
     }
 
+    // Crear un nuevo usuario
     public function store(Request $request)
     {
         $request->validate([
-            'Nombre' => 'required|string|max:255',
-            'Email' => 'required|string|email|max:255',
-            'password' => 'required|string|max:255',
-            'IdRol' => 'required|integer|exists:roles,IdRol',
-            'FechaRegistro' => 'nullable|date'
+            'id_rol' => 'required|exists:roles,id', // ✅ corregido
+            'nombre' => 'required|string|max:50',
+            'apellido_paterno' => 'required|string|max:50',
+            'apellido_materno' => 'required|string|max:50',
+            'email' => 'required|email|max:100|unique:usuarios,email',
+            'password' => 'required|string|min:6|max:255',
+            'estado' => 'nullable|boolean',
         ]);
 
-        $data = $request->all();
-        // Opcional: Encripta el password si lo necesitas
-        // $data['password'] = bcrypt($data['password']);
-
-        logger()->info($data);
-
-        $usuario = Usuario::create($data);
-        logger()->info($usuario);
+        $usuario = Usuario::create([
+            'id_rol' => $request->id_rol,
+            'nombre' => $request->nombre,
+            'apellido_paterno' => $request->apellido_paterno,
+            'apellido_materno' => $request->apellido_materno,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'estado' => $request->estado ?? true,
+        ]);
 
         return response()->json($usuario, 201);
     }
 
+    // Mostrar un usuario por ID
     public function show($id)
     {
-        return Usuario::findOrFail($id);
-    }
+        $usuario = Usuario::find($id);
+        if (!$usuario) {
+            return response()->json(['mensaje' => 'Usuario no encontrado'], 404);
+        }
 
-    public function update(Request $request, $id)
-    {
-        $usuario = Usuario::findOrFail($id);
-        $usuario->update($request->all());
         return response()->json($usuario, 200);
     }
 
+    // Actualizar un usuario
+    public function update(Request $request, $id)
+    {
+        $usuario = Usuario::find($id);
+        if (!$usuario) {
+            return response()->json(['mensaje' => 'Usuario no encontrado'], 404);
+        }
+
+        $request->validate([
+            'id_rol' => 'sometimes|exists:roles,id', // ✅ corregido y cambiado a "sometimes"
+            'nombre' => 'sometimes|string|max:50',
+            'apellido_paterno' => 'sometimes|string|max:50',
+            'apellido_materno' => 'sometimes|string|max:50',
+            'email' => 'sometimes|email|max:100|unique:usuarios,email,' . $id . ',id_usuario',
+            'password' => 'sometimes|string|min:6|max:255',
+            'estado' => 'sometimes|boolean',
+        ]);
+
+        $usuario->fill($request->only([
+            'id_rol',
+            'nombre',
+            'apellido_paterno',
+            'apellido_materno',
+            'email',
+            'estado',
+        ]));
+
+        if ($request->filled('password')) {
+            $usuario->password = bcrypt($request->password);
+        }
+
+        $usuario->save();
+
+        return response()->json($usuario, 200);
+    }
+
+    // Eliminar un usuario
     public function destroy($id)
     {
-        Usuario::destroy($id);
-        return response()->json(null, 204);
+        $usuario = Usuario::find($id);
+        if (!$usuario) {
+            return response()->json(['mensaje' => 'Usuario no encontrado'], 404);
+        }
+
+        $usuario->delete();
+        return response()->json(['mensaje' => 'Usuario eliminado'], 200);
     }
 }

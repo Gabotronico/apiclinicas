@@ -1,0 +1,35 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('usuarios', function (Blueprint $table) {
+            $table->id('id_usuario');
+
+            // ✅ Corrección: apuntamos al campo 'id' de la tabla 'roles'
+            $table->foreignId('id_rol')
+                ->references('id')
+                ->on('roles')
+                ->cascadeOnDelete();
+
+            $table->string('nombre', 50);
+            $table->string('apellido_paterno', 50);
+            $table->string('apellido_materno', 50);
+            $table->string('email', 100)->unique();
+            $table->string('password', 255);
+            $table->boolean('estado')->default(true);
+
+            $table->timestamps(); // created_at y updated_at
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('usuarios');
+    }
+};
