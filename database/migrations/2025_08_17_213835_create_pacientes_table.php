@@ -19,7 +19,6 @@ return new class extends Migration
             $table->date('fecha_nac')->nullable();
             $table->string('sexo', 10)->nullable();
             $table->string('telefono', 20)->nullable();
-            $table->string('email', 100)->nullable();
             $table->string('direccion', 255)->nullable();
 
             $table->timestamps(); // incluye created_at y updated_at

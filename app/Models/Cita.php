@@ -11,7 +11,7 @@ class Cita extends Model
 
     protected $table = 'citas';
     protected $primaryKey = 'id_cita';
-    public $timestamps = false;
+    public $timestamps = true; // la migración usa $table->timestamps()
 
     protected $fillable = [
         'id_usuario',
@@ -23,24 +23,30 @@ class Cita extends Model
         'motivo',
         'observaciones',
         'consultorio',
-        'created_at',
+        // NO incluyas created_at / updated_at aquí
     ];
 
-    // Relación con Usuario (paciente que reserva)
+    // Paciente (usuario que reserva) - alias usado por el controlador
+    public function pacienteUsuario()
+    {
+        return $this->belongsTo(Usuario::class, 'id_usuario', 'id_usuario');
+    }
+
+    // Si también quieres mantener el nombre corto:
     public function usuario()
     {
-        return $this->belongsTo(Usuario::class, 'id_usuario');
+        return $this->belongsTo(Usuario::class, 'id_usuario', 'id_usuario');
     }
 
-    // Relación con Médico
+    // Médico
     public function medico()
     {
-        return $this->belongsTo(Medico::class, 'id_medico');
+        return $this->belongsTo(Medico::class, 'id_medico', 'id_medico');
     }
 
-    // Relación con Consulta
+    // Consulta asociada
     public function consulta()
     {
-        return $this->hasOne(Consulta::class, 'id_cita');
+        return $this->hasOne(Consulta::class, 'id_cita', 'id_cita');
     }
 }

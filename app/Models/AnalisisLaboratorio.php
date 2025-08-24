@@ -21,8 +21,8 @@ class AnalisisLaboratorio extends Model
         'fecha',
     ];
 
-    public function consulta()
-    {
-        return $this->belongsTo(Consulta::class, 'id_consulta');
-    }
+   public function consulta()
+{
+    return $this->belongsTo(Consulta::class, 'id_consulta', 'id_consulta');
+}
 }

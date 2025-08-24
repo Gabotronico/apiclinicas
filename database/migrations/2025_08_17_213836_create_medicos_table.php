@@ -21,7 +21,6 @@ return new class extends Migration
         ->onDelete('cascade');
 
         $table->string('telefono', 20)->nullable();
-        $table->string('email', 100)->nullable();
     
         $table->timestamps();
         });

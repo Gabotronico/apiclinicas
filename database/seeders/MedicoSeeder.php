@@ -16,7 +16,7 @@ class MedicoSeeder extends Seeder
                 'id_usuario' => 2, // usuario médico
                 'id_especialidad' => 1, // cardiología
                 'telefono' => '76543210',
-                'email' => 'lmedrano@example.com',
+                
             ]
         ]);
     }

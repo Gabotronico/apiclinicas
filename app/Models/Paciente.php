@@ -19,7 +19,6 @@ class Paciente extends Model
         'fecha_nac',
         'sexo',
         'telefono',
-        'email',
         'direccion',
         'created_at',
     ];

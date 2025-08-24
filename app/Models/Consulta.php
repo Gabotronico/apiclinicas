@@ -26,26 +26,10 @@ class Consulta extends Model
     ];
 
     // Relación con Cita
-    public function cita()
-    {
-        return $this->belongsTo(Cita::class, 'id_cita');
-    }
+   // App\Models\Consulta.php
+public function cita()       { return $this->belongsTo(Cita::class, 'id_cita', 'id_cita'); }
+public function medicoUser() { return $this->belongsTo(Usuario::class, 'id_usuario', 'id_usuario'); } // médico (usuario)
+public function paciente()   { return $this->belongsTo(Paciente::class, 'id_paciente', 'id_paciente'); }
+public function analisis()   { return $this->hasMany(AnalisisLaboratorio::class, 'id_consulta', 'id_consulta'); }
 
-    // Relación con Médico (usuario)
-    public function usuario()
-    {
-        return $this->belongsTo(Usuario::class, 'id_usuario');
-    }
-
-    // Relación con Paciente
-    public function paciente()
-    {
-        return $this->belongsTo(Paciente::class, 'id_paciente');
-    }
-
-    // Relación con Análisis de Laboratorio
-    public function analisis()
-    {
-        return $this->hasMany(AnalisisLaboratorio::class, 'id_consulta');
-    }
 }

@@ -13,7 +13,7 @@ class PacienteSeeder extends Seeder
     {
         DB::table('pacientes')->insert([
             [
-                'id_usuario' => 3,
+                'id_usuario' => 1,
                 'direccion' => 'Av. Ejemplo 123',
                 'telefono' => '72345678',
                 'fecha_nacimiento' => '1995-07-10',
