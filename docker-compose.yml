@@ -6,7 +6,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: laravel
+      MYSQL_DATABASE: clinica_api
       MYSQL_USER: user_laravel
       MYSQL_PASSWORD: root
     volumes:

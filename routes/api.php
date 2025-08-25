@@ -8,8 +8,8 @@ use App\Http\Controllers\Api\PacienteController;
 use App\Http\Controllers\Api\EspecialidadController;
 use App\Http\Controllers\Api\MedicoController;
 use App\Http\Controllers\Api\CitaController;
-use App\Http\Controllers\Api\ConsultaController;
-use App\Http\Controllers\Api\AnalisisLaboratorioController;
+use App\Http\Controllers\ConsultaController;
+use App\Http\Controllers\AnalisisLaboratorioController;
 use App\Http\Controllers\Api\HorarioMedicoController;
 
 // Rutas API
@@ -19,6 +19,7 @@ Route::apiResource('roles', RolController::class);
 
 // Usuarios
 Route::apiResource('usuarios', UsuarioController::class);
+Route::get('usuarios/pacientes/list', [UsuarioController::class, 'getPacientes']);
 
 // Pacientes
 Route::apiResource('pacientes', PacienteController::class);
@@ -34,9 +35,11 @@ Route::apiResource('citas', CitaController::class);
 
 // Consultas
 Route::apiResource('consultas', ConsultaController::class);
+Route::get('consultas/cita/{citaId}', [ConsultaController::class, 'getByCity']);
 
 // Análisis de Laboratorio
 Route::apiResource('analisislaboratorio', AnalisisLaboratorioController::class);
+Route::get('analisislaboratorio/consulta/{consultaId}', [AnalisisLaboratorioController::class, 'getByConsulta']);
 
 // Horarios Médicos
 Route::apiResource('horariosmedicos', HorarioMedicoController::class);

@@ -18,6 +18,18 @@ class UsuarioController extends Controller
         return response()->json($usuarios, 200);
     }
 
+    // GET /api/usuarios/pacientes -> solo usuarios que son pacientes
+    public function getPacientes()
+    {
+        // Obtener usuarios con rol de paciente (id_rol = 3) y que tengan registro en la tabla pacientes
+        $usuariosPacientes = Usuario::with(['rol:id,nombre'])
+            ->where('id_rol', 3)
+            ->whereHas('paciente') // Solo usuarios que tienen un registro en la tabla pacientes
+            ->get();
+
+        return response()->json($usuariosPacientes, 200);
+    }
+
     // GET /api/usuarios/{id}
     public function show($id)
     {
