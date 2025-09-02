@@ -11,8 +11,19 @@ use App\Http\Controllers\Api\CitaController;
 use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\AnalisisLaboratorioController;
 use App\Http\Controllers\Api\HorarioMedicoController;
+use App\Http\Controllers\Api\DashboardController;
 
 // Rutas API
+
+// Dashboard
+Route::prefix('dashboard')->group(function () {
+    Route::get('/stats', [DashboardController::class, 'stats']);
+    Route::get('/system-status', [DashboardController::class, 'systemStatus']);
+    Route::get('/citas-stats', [DashboardController::class, 'citasStats']);
+    Route::get('/consultas-stats', [DashboardController::class, 'consultasStats']);
+    Route::get('/citas-por-fecha', [DashboardController::class, 'citasPorFecha']);
+    Route::get('/top-especialidades', [DashboardController::class, 'topEspecialidades']);
+});
 
 // Roles
 Route::apiResource('roles', RolController::class);
